@@ -6,3 +6,17 @@ CS ID: 			p9d8
 shr but the logic looks right. Everything else should be working, all
 instructions are tested.
 
+5) Load starting address of d0 into register r0 and value of d0.f into
+r1. Then store value of r1 (d0.f) into memory at address r0, which is
+d0.e. Second bit is slightly more complicated because d1 is a pointer
+and the struct it points to is dynamically allocated at runtime. Still,
+it does basically the same thing. r0 stores address of d1, struct d1
+points to, then value of d1 (i.e. d1->e) is loaded into r0. d1->f is
+loaded into register r1. The value at r1 (i.e. d1->f) is now stored at
+memory address r0 (no offset), which is d1->e.
+
+7) 
+
+8)
+
+10)
