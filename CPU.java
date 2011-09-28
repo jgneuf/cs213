@@ -212,6 +212,18 @@ public class CPU extends AbstractSM213CPU {
 			}
 			break;
 
+		// Shift:
+		case 7:
+			rd = insOp0.get();
+			v  = insOpImm.get();
+			// Negative Imm means shift right
+			if (v < 0)
+				reg.set(rd, rd >> v);
+			// Positive Imm means shift left
+			else
+				reg.set(rd,  rd << v);
+			break;
+			
 		// HALT and NOP instructions, use nested case to determine which:
 		case 0xf:
 			switch (insOp0.get()) {
