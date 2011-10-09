@@ -28,7 +28,29 @@
 
 jumper:
 				ld 		$0xffff,	r0			# r0 = 65535
+                beq     r0,         jumper2     # shouldn't branch
+                ld      $0x0,       r0          # r0 = 0
+                beq     r0,         jumper2     # should branch
+                halt                            # should not execute
+
+jumper2:
+                bgt     r0,         jumper3     # shouldn't branch
+                inc     r0                      # r0 = 1
+                bgt     r0,         jumper3     # should branch
+                halt                            # should not execute
+                
+jumper3:
+                j       jumper4                # jump to jumper4
+                halt
+
+jumper4:
+                gpc     $0x0,        r1          # r1 = pc + 0
+                gpc     $0x4,        r1          # r1 = pc + 4      
+                ld      $0x900,      r2          # r2 = 0x900
+                j       0x0(r2)                  # jump to 0x900
 				halt
+.pos 0x900
+                halt
 .pos 0x1000
 a:				.long	0xffffffff				# a
 .pos 0x2000

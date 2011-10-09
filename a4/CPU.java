@@ -69,7 +69,7 @@ public class CPU extends AbstractSM213CPU {
 		insOpImm.set(insArr[1].value());					   // imm: full second byte
 
 		// Opcode 0 requires four more bytes, adjust PC and insOpExt
-		if (opcode == 0) {
+		if (opcode == 0 || opcode == 0xb) {
 			insOpExt.set(mem.readIntegerUnaligned(baseAddress + 2));
 			pc.set(baseAddress + 6);
 		}
@@ -209,6 +209,14 @@ public class CPU extends AbstractSM213CPU {
 				rd = insOp2.get();
 				reg.set(rd, ~(reg.get(rd)));
 				break;
+				
+			// Get PC:
+			case 0xf:
+				v  = 2 * insOp1.get();
+				/* Extract rd from imm using a bitmask. */
+				rd = insOp2.get(); 
+				reg.set(rd, pc.get() + v);
+				break;
 			}
 			break;
 
@@ -239,6 +247,28 @@ public class CPU extends AbstractSM213CPU {
 			}
 			break;
 
+		// Branch if greater:
+		case 0xa:
+			rd = reg.get(insOp0.get());
+			if (rd > 0) {
+				v = insOpImm.get() * 2;
+				pc.set(pc.get() + v);
+			}
+			break;
+			
+		// Unconditional jump:
+		case 0xb:
+			v = insOpExt.get();
+			pc.set(v);
+			break;
+			
+		// Indirect jump:
+		case 0xc:
+			v  = insOpImm.get() * 2;
+			rs = reg.get(insOp0.get());
+			pc.set(rs + v);
+			break;
+		
 		// HALT and NOP instructions, use nested case to determine which:
 		case 0xf:
 			switch (insOp0.get()) {
