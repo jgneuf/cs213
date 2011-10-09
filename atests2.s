@@ -21,8 +21,7 @@
 				deca	r2						# r2 -+ 4 - DECA
 				ld		0x0(r0),	r5			# r5 = c[0]	- LD b+o
 				ld		0x4(r0),	r6			# r6 = c[1] - LD b+o
-				ld		(r5,r2,4),	r7			# r7 = c[0]
-				inca	r2						# r2 += 4
+				ld		(r5,r2,4),	r7			# r7 = c[0] - LD indexed
 				halt
 
 .pos 0x1000
