@@ -80,5 +80,16 @@ virus then writes the value -1 into reach register. The only trick here is to
 write the code for the virus and look at the hex values for each instruction.
 My virus halts without returning control to the other calling function(s).
 
-5) 5A-a.s looks like a program that takes that max of an array at 0x2000,
-pointed to by 0x1000.
+5) A5-a.s finds the largest element in an int array. A5-b.s has two functions,
+foo and bar (for ease of use). foo takes two arguments, bar calls foo. There is
+a global array arr created dynamically, and a pointer to it created locally in
+foo each time the function is called. The program calls foo twice from bar, 
+and the crux of the program is as follows:
+
+    arr[arg1] = arr[arg1] + arg0;
+
+So foo(1,2) sets arr[2] to arr[1] + 2. In this case, arr[2] = 1, since the
+value at arr[2] is 0.
+
+More details for my implementation are in the *.c files themselves.
+
