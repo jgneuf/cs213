@@ -64,4 +64,21 @@ and store the return value (r0) in s's address (i.e. s = add(1,2)). Now we
 pop the return address off the stack and store it in r6, then jump to r6
 which is start.
 
+4) The cpy.s program executes as expected, by taking some input (here the src
+array at 0x900) and copying its values into a local array in copy() called
+dst. copy() expects two elements, however, where the second is the value 0.
+My virus is simply a different input. The first two elements are non-zero so
+copy() doesn't terminate. There is no array bounds checking, so the program
+will continue to copy values from src. dst is a local array, pushed onto the
+stack at runtime. Before dst is allocated, the address copy() returns to is
+pushed onto the stack. My input takes advantage of this by providing a new
+return address as the next element of the array. I then provide 0 so the 
+while loop terminates. The stack then discards the two elements of dst by
+adjusting the stack pointer back to the return address -- which I've altered.
+The new return address is some position in memory where my virus begins. The
+virus then writes the value -1 into reach register. The only trick here is to
+write the code for the virus and look at the hex values for each instruction.
+My virus halts without returning control to the other calling function(s).
 
+5) 5A-a.s looks like a program that takes that max of an array at 0x2000,
+pointed to by 0x1000.
