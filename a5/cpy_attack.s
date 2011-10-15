@@ -33,7 +33,22 @@ end:        inca r5                 # pop dst[1]
             j    (r6)               # return
 .pos 0x900
 src:        .long 0x00000001
+            .long 0x00000001
+            .long 0x910
             .long 0x00000000
+            .long 0x0000ffff
+            .long 0xffff0100
+            .long 0xffffffff
+            .long 0x0200ffff
+            .long 0xffff0300
+            .long 0xffffffff
+            .long 0x0400ffff
+            .long 0xffff0500
+            .long 0xffffffff
+            .long 0x0600ffff
+            .long 0xffff0700
+            .long 0xffffffff
+            .long 0xf0000000
 .pos 0x1000
 stack:      .long 0x00000000
             .long 0x00000000
