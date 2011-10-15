@@ -67,6 +67,7 @@ which is start.
 4) The cpy.s program executes as expected, by taking some input (here the src
 array at 0x900) and copying its values into a local array in copy() called
 dst. copy() expects two elements, however, where the second is the value 0.
+Note that cpy_attack.s is the actual copy program but with my virus in src.
 My virus is simply a different input. The first two elements are non-zero so
 copy() doesn't terminate. There is no array bounds checking, so the program
 will continue to copy values from src. dst is a local array, pushed onto the
