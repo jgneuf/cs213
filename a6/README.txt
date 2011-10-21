@@ -32,7 +32,30 @@ and offset 0 points to 0x400. The second call is to 0x1000 offset four, which
 is A_pong. When foo is called with b at 0x1008, offset zero calls 0x402 which
 is B_ping. The second call, with offset 4, is to A_pong.  
 
-Snippet B:
+In snippet B we check if the given number i is less than 20. If it is, we jump
+to the default case. Then we check if i is greater than 23, and again if it is
+we jump to the default case. If i - 19 is zero to smaller, then i is 19 or
+smaller and out of range, hence the jump to default. Likewise, if i - 23 is
+greater than zero we know is is greater than 23 and is out of range, so we
+jump to the default case. 
+
+When i passes both these tests we know it is in the range we want. We load -20
+into a register and add i with -20. We know i is in [20..23] so the result will
+be in [0..3]. Using a jump table at 0x800 which stores the address to jump to
+for each case. For example, if the result of i - 20 was 1, we could use a double
+indirect indexed jump with offset one to jump to the correct case by using the
+base address of jmptable and offset 1.
+
+The execution of this program uses an offset of 2. The double indirect indexed
+jump to jmptable (0x800) offset 2 (2 * 4) gives address 0x150, which is the case
+for 22.
+
+Each case trivially loads a constant value into r1 and jumps to the done case.
+done stores the value in r1 to memory at j. If the default case is executed, it
+simply loads 14 into r1. The other cases load i - 10 into r1, but they use hard-
+coded values.
+
+The key is in storing the jumptable in memory and using a double indirect jump.
 
 5) A5-c.s does...
 
