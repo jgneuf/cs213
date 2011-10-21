@@ -44,17 +44,17 @@ public class MainMemory extends AbstractMainMemory {
 	 * @param byteAtAddrPlus3 value of byte at base address plus 3 (highest memory address).
 	 * @return Big Endian integer formed by these four bytes.
 	 */
-	public int bytesToInteger (UnsignedByte byteAtAddrPlus0, 
-			UnsignedByte byteAtAddrPlus1, UnsignedByte byteAtAddrPlus2, 
+	public int bytesToInteger (UnsignedByte byteAtAddrPlus0,
+			UnsignedByte byteAtAddrPlus1, UnsignedByte byteAtAddrPlus2,
 			UnsignedByte byteAtAddrPlus3) {
 		/* Each byte of 32-bit word has an offset. Model this by shifting each byte
 		 * the appropriate amount. The first byte doesn't need to be shifted, but each
 		 * successive byte must be shifted by four places further than the last.
 		 */
 		int firstByte, secondByte, thirdByte, fourthByte; // 32-bit representation for each byte
-		firstByte  = ((int) byteAtAddrPlus0.value()) << 24;
+		firstByte = ((int) byteAtAddrPlus0.value()) << 24;
 		secondByte = ((int) byteAtAddrPlus1.value()) << 16;
-		thirdByte  = ((int) byteAtAddrPlus2.value()) << 8;
+		thirdByte = ((int) byteAtAddrPlus2.value()) << 8;
 		fourthByte = (int) byteAtAddrPlus3.value();
 
 		/* Each byte is shifted to its correct position in a 32-bit word, so adding them
@@ -67,7 +67,7 @@ public class MainMemory extends AbstractMainMemory {
 
 	/**
 	 * Convert a Big Endian integer into an array of 4 bytes organized by memory address.
-	 * @param  i an Big Endian integer.
+	 * @param i an Big Endian integer.
 	 * @return an array of UnsignedByte where [0] is value of low-address byte of the number etc.
 	 */
 	public UnsignedByte[] integerToBytes (int i) {
@@ -76,7 +76,7 @@ public class MainMemory extends AbstractMainMemory {
 		 * we can grab each successive byte by shifting them four places to align them
 		 * with the mask.
 		 */
-		UnsignedByte[] ub = new UnsignedByte [4];   // Byte array, [0] is least significant
+		UnsignedByte[] ub = new UnsignedByte [4]; // Byte array, [0] is least significant
 
 		ub[0] = new UnsignedByte (i >>> 24);
 		ub[1] = new UnsignedByte (i >>> 16);
@@ -88,11 +88,11 @@ public class MainMemory extends AbstractMainMemory {
 	/**
 	 * Fetch a sequence of bytes from memory.
 	 * @param address address of the first byte to fetch.
-	 * @param length  number of bytes to fetch.
-	 * @return an array of UnsignedByte where [0] is memory value at address, 
-	 * 		   [1] is memory value at address+1 etc.
+	 * @param length number of bytes to fetch.
+	 * @return an array of UnsignedByte where [0] is memory value at address,
+	 * [1] is memory value at address+1 etc.
 	 */
-	protected UnsignedByte[] get (int address, int length) 
+	protected UnsignedByte[] get (int address, int length)
 			throws InvalidAddressException {
 		// Do not allow user to read beyond allocated memory
 		if (address + length > mem.length || address < 0)
@@ -108,12 +108,12 @@ public class MainMemory extends AbstractMainMemory {
 
 	/**
 	 * Store a sequence of bytes into memory.
-	 * @param  address address of the first byte in memory to receive the specified value.
-	 * @param  value an array of UnsignedByte values to store in memory at the specified address.
-	 * @throws InvalidAddressException if any address in the range address to 
-	 *         address+value.length-1 is invalid.
+	 * @param address address of the first byte in memory to receive the specified value.
+	 * @param value an array of UnsignedByte values to store in memory at the specified address.
+	 * @throws InvalidAddressException if any address in the range address to
+	 * address+value.length-1 is invalid.
 	 */
-	protected void set (int address, UnsignedByte[] value) 
+	protected void set (int address, UnsignedByte[] value)
 			throws InvalidAddressException {
 		// Do not allow user to read beyond allocated memory
 		if (address + value.length > mem.length || address < 0)
@@ -159,7 +159,7 @@ public class MainMemory extends AbstractMainMemory {
 		byte3 = new UnsignedByte (1);
 		byte4 = new UnsignedByte (0);
 		if (mm.bytesToInteger(byte1, byte2, byte3, byte4) != 349)
-			System.out.println ("Buggy");		
+			System.out.println ("Buggy");
 
 		// Tests for integerToBytes
 		UnsignedByte[] arr = mm.integerToBytes(0);
