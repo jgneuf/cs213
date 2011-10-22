@@ -1,6 +1,8 @@
+-------------------------------------------------------------------------------------
 Student Name: Jonathan Neufeld
 Student ID: 30671093
 CS ID: p9d8
+-------------------------------------------------------------------------------------
 
 3) The test file tests.s tests only the new indirect jump instructions. I have
 tested base + offset with no offset and with an offset as well as index with
@@ -57,6 +59,24 @@ coded values.
 
 The key is in storing the jumptable in memory and using a double indirect jump.
 
-5) A5-c.s does...
+5) A5-c.s calls a function (foo) with three arguments. It pushes three arguments
+onto the stack, in this case three ints, and expects a return value in r0. foo
+first checks if arg0 is in the range of its switch. The range is [10..18]. Any
+time arg0 is outside this range, the foo returns 0. Also, for odd values of
+arg0 in the correct range, foo returns 0. 
 
-My program, A5-c.c...
+Range checking is done by subtracting 10 from arg0 then multiplying by -1 
+(NOT then INC). If the value is zero or less, it's not in the right range. 
+We then subtract eight from that result and test if the value is greater than 
+zero. If it's not, the value is too high and we jump to the default case, just 
+like if it's too low. Otherwise we use the jump table stored in memory at 
+0x400 and the result of arg0 - 10 - 8 as an index for a double indirect indexed 
+jump. 
+
+The table at 0x400 stores the address to jump to for each arg0 in the correct 
+range after normalization.
+
+Once execution enters the switch in foo each case is a fairly simple computation.
+What exactly it does for each arg0, arg1 and arg2 is detailed in my C program,
+A5-c.c.
+
