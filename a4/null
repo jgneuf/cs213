@@ -1,0 +1,15 @@
+int min=1000000;
+int i;
+int a[] = {2,40,6,80,10,120,14,16,18,20};
+void foo ()
+{
+    for (i=0; i<10; i++)
+        if (min > a[i])
+            min = a[i];
+}
+
+void bar () 
+{
+    foo();
+}
+

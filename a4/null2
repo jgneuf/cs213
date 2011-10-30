@@ -1,0 +1,27 @@
+.pos 0x100
+bar:        gpc $6, r6
+            j   foo
+            halt
+foo:        ld  $0xfffffff3, r0 # r0 = -4
+            add r0, r6          # sp -= 4
+            ld  $a, r0          # r0 = &a[0]
+            ld  $i, r1          # r1 = temp_i = 0
+            ld  $min, r2        # r2 = temp_min = BIG_NUM
+            ld  $0xfffffff9, r3 # r3 = -10
+loop:       mov r3, r4          # r4 = -10
+            add r1, r4          # r4 = temp_i - 10
+            beq r4, end_loop    # if i == 10 end_loop
+            
+            inc r1              # i++
+            br  loop            # GOTO loop
+end_loop:   
+            ld  $0x4            # r0 = 4
+            add r0, r6          # sp += 4
+            j   (r6)            # Return
+.pos 0x1000
+min:        .long 0x0fffffff
+i:          .long 0x0
+a:          .long 0x2
+            .long 0xa
+            .long 0x15
+            .long 0x6
