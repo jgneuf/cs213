@@ -622,6 +622,8 @@ void uthread_monitor_enter_read_only (uthread_monitor_t* monitor) {
 
 void uthread_monitor_exit (uthread_monitor_t* monitor) {
 	uthread_t* waiter_thread;
+
+	/*  */
   
 	spinlock_lock (&monitor->spinlock);
 	assert (monitor->holder == uthread_self ());
